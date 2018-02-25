@@ -11,7 +11,7 @@ direct = (0, 0)
 
 clock = pygame.time.Clock()
 
-food = Block(0, 0, RED)
+food = Block(random.randint(0, hor-1), random.randint(0, ver-1), RED)
 
 while not finished:
     for event in pygame.event.get():
@@ -34,20 +34,28 @@ while not finished:
 
     if snake.head.x == food.x and snake.head.y == food.y:
         snake.tail.append(Block(food.x, food.y, GREEN))
-        food.updateXY(random.randint(0, hor-1), random.randint(0, ver-1))
+        clear = False
+        while not clear:
+            clear = True
+            x = random.randint(0, hor-1)
+            y = random.randint(0, ver-1)
+            if(snake.head.actx == x and snake.head.acty == y):
+                clear = False
+            for part in snake.tail:
+                if (part.actx == x and part.acty == y):
+                    clear = False
+        food.updateXY(x, y)
+
     if snake.checkHit():
-        print("opa")
+        snake.tail = []
+        direct = (0, 0)
+        snake.dir = direct
+
     screen.fill(GRAY)
-
     snake.move()
-
     snake.draw(screen)
-
     food.draw(screen)
-
     pygame.display.flip()
-
-
     clock.tick_busy_loop(10)
 
 pygame.quit()

@@ -59,7 +59,7 @@ class Snake:
                 self.tail[i].updateXY(self.tail[i-1].actx, self.tail[i-1].acty)
             self.tail[0].updateXY(self.head.actx, self.head.acty)
 
-        self.head.updateXY(self.head.actx + x, self.head.acty + y)
+        self.head.updateXY((self.head.actx + x) % hor, (self.head.acty + y) % ver)
 
     def draw(self, screen):
         self.head.draw(screen)
